@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="rcrowe\Campfire" default="build">
+
+    <target name="build" depends="prepare,composer,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpunit,apigen,phpcb"/>
+
+    <target name="clean" description="Cleanup build artifacts">
+        <delete dir="build/api" includeemptydirs="true" />
+        <delete dir="build/code-browser" includeemptydirs="true" />
+        <delete dir="build/coverage" includeemptydirs="true" />
+        <delete dir="build/logs" includeemptydirs="true" />
+        <delete dir="build/pdepend" includeemptydirs="true" />
+    </target>
+
+    <target name="prepare" depends="clean" description="Prepare for build">
+        <mkdir dir="build/api"/>
+        <mkdir dir="build/code-browser"/>
+        <mkdir dir="build/coverage"/>
+        <mkdir dir="build/logs"/>
+        <mkdir dir="build/pdepend"/>
+    </target>
+
+    <target name="composer">
+        <available file="./composer.phar" property="composer.exists" value="Yes"/>
+
+        <if>
+            <equals arg1="${composer.exists}" arg2="1" />
+            <then>
+                <!-- Use composer.phar -->
+                <exec executable="./composer.phar" passthru="true" checkreturn="true">
+                    <arg value="update" />
+                    <arg value="--dev" />
+                </exec>
+            </then>
+            <else>
+                <!-- Use global composer -->
+                <exec executable="composer" passthru="true" checkreturn="true">
+                    <arg value="update" />
+                    <arg value="--dev" />
+                </exec>
+            </else>
+        </if>
+    </target>
+
+    <target name="lint">
+        <phplint deprecatedAsError="true" haltonfailure="true">
+            <fileset dir="src">
+                <include name="**/*.php" />
+            </fileset>
+        </phplint>
+    </target>
+
+    <target name="phploc" description="Measure project size using PHPLOC">
+        <exec executable="phploc" passthru="true">
+            <arg value="--log-csv" />
+            <arg value="build/logs/phploc.csv" />
+            <arg path="src" />
+        </exec>
+    </target>
+
+    <target name="pdepend" description="Calculate software metrics using PHP_Depend">
+        <exec executable="./vendor/bin/pdepend" passthru="true">
+            <arg value="--jdepend-xml=build/logs/jdepend.xml" />
+            <arg value="--jdepend-chart=build/pdepend/dependencies.svg" />
+            <arg value="--overview-pyramid=build/pdepend/overview-pyramid.svg" />
+            <arg path="src" />
+        </exec>
+    </target>
+
+    <target name="phpmd" description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
+        <exec executable="./vendor/bin/phpmd" passthru="true">
+            <arg path="src" />
+            <arg value="text" />
+            <arg value="build/phpmd.xml" />
+        </exec>
+    </target>
+
+    <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+        <exec executable="./vendor/bin/phpmd" passthru="true">
+            <arg path="src" />
+            <arg value="xml" />
+            <arg value="build/phpmd.xml" />
+            <arg value="--reportfile" />
+            <arg value="build/logs/pmd.xml" />
+        </exec>
+    </target>
+
+    <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+
+    </target>
+
+    <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+
+    </target>
+
+    <target name="phpunit" description="Run unit tests with PHPUnit">
+        <exec executable="./vendor/bin/phpunit" passthru="true" checkreturn="true">
+            <arg value="--configuration" />
+            <arg value="tests/phpunit.xml.dist" />
+
+            <!-- HTML coverage report -->
+            <arg value="--coverage-html" />
+            <arg value="build/coverage" />
+
+            <!-- Clover coverage report -->
+            <arg value="--coverage-clover" />
+            <arg value="build/logs/clover.xml" />
+
+            <!-- JUnit report -->
+            <arg value="--log-junit" />
+            <arg value="build/logs/junit.xml" />
+        </exec>
+    </target>
+
+    <target name="apigen" description="Create API documentation from source">
+        <exec executable="php" passthru="true">
+            <arg value="./vendor/bin/apigen.php" />
+            <arg value="-c" />
+            <arg value="./build/apigen.conf" />
+        </exec>
+    </target>
+
+    <target name="phpcb" description="Aggregate tool output with PHP_CodeBrowser">
+        <exec executable="phpcb" passthru="true">
+            <arg value="--log" />
+            <arg path="build/logs" />
+            <arg value="--source" />
+            <arg path="src" />
+            <arg value="--output" />
+            <arg path="build/code-browser" />
+        </exec>
+    </target>
+
+</project>
