@@ -85,11 +85,23 @@
     </target>
 
     <target name="phpcs" description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
-
+        <exec executable="phpcs" passthru="true">
+            <arg value="--standard=build/phpcs.xml" />
+            <arg value="--extensions=php" />
+            <arg value="--ignore=vendor" />
+            <arg value="src" />
+        </exec>
     </target>
 
     <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
-
+        <exec executable="phpcs" passthru="true">
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=build/logs/checkstyle.xml" />
+            <arg value="--standard=build/phpcs.xml" />
+            <arg value="--extensions=php" />
+            <arg value="--ignore=vendor" />
+            <arg value="src" />
+        </exec>
     </target>
 
     <target name="phpunit" description="Run unit tests with PHPUnit">
