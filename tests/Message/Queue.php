@@ -112,6 +112,71 @@ class Queue extends \PHPUnit_Framework_TestCase
         $this->assertEquals($queue[2], 'ObjTest toString check');
     }
 
+    // Trying to set an item to a non-existing index
+    public function testQueueAsArrayWithBadIndex()
+    {
+        $this->queue[0]  = 'Test 0';
+        $this->queue[1]  = 'Test 1';
+        $this->queue[4]  = 'Test 4';
+        $this->queue[10] = 'Test 10';
+
+        $refObj  = new \ReflectionObject($this->queue);
+        $refProp = $refObj->getProperty('container');
+        $refProp->setAccessible(true);
+        $queue = $refProp->getValue($this->queue);
+
+        $this->assertEquals($queue[0], 'Test 0');
+        $this->assertEquals($queue[1], 'Test 1');
+        $this->assertEquals($queue[2], 'Test 4');
+        $this->assertEquals($queue[3], 'Test 10');
+    }
+
+    // Setting at an index just removes it and adds a new message to the end
+    public function testQueueAsArrayWithIndex()
+    {
+        $this->queue[] = 'Test 1';
+        $this->queue[] = 'Test 2';
+        $this->queue[] = 'Test 3';
+        $this->queue[] = 'Test 4';
+        $this->queue[] = 'Test 5';
+        $this->queue[] = 'Test 6';
+
+        $this->queue[1] = 'There was a big fish';
+        $this->queue[3] = 'that sat on a cat';
+        $this->queue[4] = 'smoking Mr Dogs finest';
+
+        $refObj  = new \ReflectionObject($this->queue);
+        $refProp = $refObj->getProperty('container');
+        $refProp->setAccessible(true);
+        $queue = $refProp->getValue($this->queue);
+
+        $this->assertTrue(isset($queue[0]));
+        $this->assertFalse(isset($queue[1]));
+        $this->assertTrue(isset($queue[2]));
+        $this->assertFalse(isset($queue[3]));
+        $this->assertFalse(isset($queue[4]));
+        $this->assertTrue(isset($queue[5]));
+        $this->assertTrue(isset($queue[6]));
+        $this->assertTrue(isset($queue[7]));
+        $this->assertTrue(isset($queue[8]));
+
+        $this->assertEquals($queue[0], 'Test 1');
+        $this->assertEquals($queue[2], 'Test 3');
+        $this->assertEquals($queue[5], 'Test 6');
+        $this->assertEquals($queue[6], 'There was a big fish');
+        $this->assertEquals($queue[7], 'that sat on a cat');
+        $this->assertEquals($queue[8], 'smoking Mr Dogs finest');
+    }
+
+    public function testQueueGetAsArray()
+    {
+        $this->queue->add('test 1');
+        $this->queue->add('1 tset');
+
+        $this->assertEquals($this->queue[0], 'test 1');
+        $this->assertEquals($this->queue[1], '1 tset');
+    }
+
     public function testQueueCount()
     {
         $this->queue[] = 'Hello world 3';
