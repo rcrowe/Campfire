@@ -76,7 +76,11 @@ class Queue implements \ArrayAccess, \Iterator, \Countable
         }
         else
         {
-            $this->remove($offset);
+            if ($this->offsetExists($offset))
+            {
+                $this->remove($offset);
+            }
+
             $this->add($value);
         }
     }
@@ -93,7 +97,7 @@ class Queue implements \ArrayAccess, \Iterator, \Countable
 
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return ($this->offsetExists($offset)) ? $this->container[$offset] : NULL;
     }
 
     public function rewind()
