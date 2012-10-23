@@ -1,9 +1,25 @@
 <?php
 
+/**
+ * PHP library for 37Signals Campfire. Designed for incidental notifications from an application.
+ *
+ * @author Rob Crowe <rob@vocabexpress.com>
+ * @copyright Copyright (c) 2012, Alpha Initiatives Ltd.
+ * @license MIT
+ */
+
 namespace rcrowe\Campfire;
 
+/**
+ * Deals with holding and enforcing proper configuration.
+ */
 class Config
 {
+    /**
+     * Holds configuration options. Required options: subdomain, room & key.
+     *
+     * @var array
+     */
     protected $config = array(
         'subdomain' => null,
         'room'      => null,
