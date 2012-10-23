@@ -74,7 +74,7 @@ class Transport
                     $exception = new Exceptions\Transport\UnauthorizedException('Unauthorised: API incorrect');
                     break;
                 default:
-                    $exception = new Exceptions\TransportException('Unknown error occurred');
+                    $exception = new Exceptions\TransportException('Unknown HTTP error occurred');
             }
 
             $exception->setResponse($response);

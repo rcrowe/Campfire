@@ -16,7 +16,7 @@ namespace rcrowe\Campfire;
 class Config
 {
     /**
-     * Holds configuration options. Required options: subdomain, room & key.
+     * Holds configuration options. Required options:
      *
      * @var array
      */

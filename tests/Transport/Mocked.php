@@ -353,7 +353,7 @@ class Mocked extends \PHPUnit_Framework_TestCase
         }
         catch(Campfire\Exceptions\TransportException $ex)
         {
-            $this->assertEquals($ex->getMessage(), 'Unknown error occurred');
+            $this->assertEquals($ex->getMessage(), 'Unknown HTTP error occurred');
 
             // Make sure we can get the request back that generated the error
             $this->assertTrue(is_object($ex->getResponse()));
