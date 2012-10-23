@@ -2,4 +2,6 @@
 
 namespace rcrowe\Campfire\Exceptions;
 
-class ConfigException extends \Exception {}
+class ConfigException extends \Exception
+{
+}

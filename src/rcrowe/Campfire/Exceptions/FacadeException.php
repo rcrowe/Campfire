@@ -2,4 +2,6 @@
 
 namespace rcrowe\Campfire\Exceptions;
 
-class FacadeException extends \Exception {}
+class FacadeException extends \Exception
+{
+}

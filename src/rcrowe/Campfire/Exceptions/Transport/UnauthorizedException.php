@@ -2,4 +2,6 @@
 
 namespace rcrowe\Campfire\Exceptions\Transport;
 
-class UnauthorizedException extends \rcrowe\Campfire\Exceptions\TransportException {}
+class UnauthorizedException extends \rcrowe\Campfire\Exceptions\TransportException
+{
+}

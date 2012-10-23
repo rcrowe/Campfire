@@ -11,15 +11,14 @@ class Facade
      */
     protected static $instance;
 
-    public static function init(array $config = array(), $http = NULL)
+    public static function init(array $config = array(), $http = null)
     {
         return static::instance(new Campfire($config, $http));
     }
 
-    public static function instance(Campfire $instance = NULL)
+    public static function instance(Campfire $instance = null)
     {
-        if ($instance !== NULL)
-        {
+        if ($instance !== null) {
             static::$instance = $instance;
         }
 
@@ -28,33 +27,29 @@ class Facade
 
     public static function destroy()
     {
-        static::$instance = NULL;
+        static::$instance = null;
     }
 
     public static function __callStatic($name, $arguments)
     {
         // Do we have a valid instance initialised
-        if (!isset(static::$instance))
-        {
+        if (!isset(static::$instance)) {
             throw new Campfire\Exceptions\FacadeException('Facade::init(...) must be called first');
         }
 
-        switch ($name)
-        {
+        switch ($name) {
             case 'msg':
-                    $method = 'send';
-                    $arg1   = (isset($arguments[0])) ? $arguments[0] : NULL;
+                $method = 'send';
+                $arg1   = (isset($arguments[0])) ? $arguments[0] : null;
 
-                    if ($arg1 === NULL)
-                    {
-                        // throw exception
-                        throw new \InvalidArgumentException('No message was passed in as the first argument');
-                    }
-                    break;
-
+                if ($arg1 === null) {
+                    // throw exception
+                    throw new \InvalidArgumentException('No message was passed in as the first argument');
+                }
+                break;
             default:
-                    $method = $name;
-                    $arg1   = (isset($arguments[0])) ? $arguments[0] : NULL;
+                $method = $name;
+                $arg1   = (isset($arguments[0])) ? $arguments[0] : null;
         }
 
         static::$instance->$method($arg1);

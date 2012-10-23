@@ -5,9 +5,9 @@ namespace rcrowe\Campfire;
 class Config
 {
     protected $config = array(
-        'subdomain' => NULL,
-        'room'      => NULL,
-        'key'       => NULL,
+        'subdomain' => null,
+        'room'      => null,
+        'key'       => null,
     );
 
     public function __construct(array $config = array())
@@ -15,10 +15,9 @@ class Config
         $this->config = $config;
 
         // Check we have all the config options we need
-        foreach (array('subdomain', 'room', 'key') as $item)
-        {
-            if (!isset($this->config[$item]) OR !$this->config[$item])
-            {
+        foreach (array('subdomain', 'room', 'key') as $item) {
+
+            if (!isset($this->config[$item]) OR !$this->config[$item]) {
                 throw new Exceptions\ConfigException('Unable to find config item: '.$item);
             }
         }
@@ -31,6 +30,6 @@ class Config
 
     public function get($item)
     {
-        return (isset($this->config[$item])) ? $this->config[$item] : NULL;
+        return (isset($this->config[$item])) ? $this->config[$item] : null;
     }
 }

@@ -8,36 +8,30 @@ class Queue implements \ArrayAccess, \Iterator, \Countable
 
     public function add($item)
     {
-        if (is_string($item))
-        {
+        if (is_string($item)) {
+
             $msg = $item;
-        }
-        elseif (is_object($item))
-        {
-            if (!method_exists($item, '__toString'))
-            {
+
+        } elseif (is_object($item)) {
+
+            if (!method_exists($item, '__toString')) {
                 throw new \InvalidArgumentException('Object can not be converted to a string');
             }
 
             $msg = (string)$item;
-        }
-        else
-        {
-            $msg = NULL;
+
+        } else {
+            $msg = null;
         }
 
-        if (!is_string($msg) OR strlen($msg) === 0)
-        {
+        if (!is_string($msg) OR strlen($msg) === 0) {
             throw new \InvalidArgumentException('Can only add a string to the queue');
         }
 
-        if (count($this->container) > 0)
-        {
+        if (count($this->container) > 0) {
             $keys  = array_keys($this->container);
             $index = ($keys[ count($keys) - 1 ]) + 1;
-        }
-        else
-        {
+        } else {
             $index = 0;
         }
 
@@ -46,38 +40,27 @@ class Queue implements \ArrayAccess, \Iterator, \Countable
         return $index;
     }
 
-    // public function empty()
-    // {
-    //     // $this->container = array();
-    // }
-
-    public function remove($index = NULL)
+    public function remove($index = null)
     {
-        if ($index !== NULL)
-        {
-            if (!$this->offsetExists($index))
-            {
+        if ($index !== null) {
+
+            if (!$this->offsetExists($index)) {
                 throw new \OutOfRangeException('Unknown index: '.$index);
             }
 
             unset($this->container[$index]);
-        }
-        else
-        {
+        } else {
             $this->container = array();
         }
     }
 
     public function offsetSet($offset, $value)
     {
-        if (is_null($offset))
-        {
+        if (is_null($offset)) {
             $this->add($value);
-        }
-        else
-        {
-            if ($this->offsetExists($offset))
-            {
+        } else {
+
+            if ($this->offsetExists($offset)) {
                 $this->remove($offset);
             }
 
@@ -97,7 +80,7 @@ class Queue implements \ArrayAccess, \Iterator, \Countable
 
     public function offsetGet($offset)
     {
-        return ($this->offsetExists($offset)) ? $this->container[$offset] : NULL;
+        return ($this->offsetExists($offset)) ? $this->container[$offset] : null;
     }
 
     public function rewind()
