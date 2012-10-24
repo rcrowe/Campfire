@@ -26,6 +26,9 @@ class Config
         'key'       => null,
     );
 
+    /**
+     * Class constructor. Gets an instance insuring that the required config is set.
+     */
     public function __construct(array $config = array())
     {
         $this->config = $config;
