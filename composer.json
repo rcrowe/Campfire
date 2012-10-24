@@ -18,7 +18,6 @@
     "require-dev": {
         "apigen/apigen": "dev-master",
         "mockery/mockery": "*",
-        "phpunit/phpunit": "*",
         "phing/phing": "*",
         "phpmd/phpmd": "1.4.0"
     },
