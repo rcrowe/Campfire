@@ -28,6 +28,13 @@ class Config
 
     /**
      * Class constructor. Gets an instance insuring that the required config is set.
+     *
+     * You must pass in the following required config options: subdomain, room & key.
+     *
+     * @param array $config Pass in config options, must include required keys.
+     * @return rcrowe\Campfire\Config
+     *
+     * @throws rcrowe\Campfire\Exceptions\ConfigException Thrown when a required config item is not passed in.
      */
     public function __construct(array $config = array())
     {
@@ -42,11 +49,22 @@ class Config
         }
     }
 
+    /**
+     * Return all config options.
+     *
+     * @return array
+     */
     public function getConfig()
     {
         return $this->config;
     }
 
+    /**
+     * Return an individual config item.
+     *
+     * @param mixed $item If found the value is returned, else NULL if it can't be found.
+     * @return mixed
+     */
     public function get($item)
     {
         return (isset($this->config[$item])) ? $this->config[$item] : null;
