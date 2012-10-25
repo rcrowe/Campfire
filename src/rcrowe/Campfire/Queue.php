@@ -71,6 +71,19 @@ class Queue implements \ArrayAccess, \Iterator, \Countable
         return $index;
     }
 
+    /**
+     * Remove an item from the queue.
+     *
+     * Given the index returned by rcrowe\Campfire::add() remove the message added
+     * from the queue.
+     *
+     * @see rcrowe\Campfire\Queue::add()
+     *
+     * @param int $index Index for the message in the queue you want removed.
+     * @return bool TRUE when the item is removed from the queue
+     *
+     * @throws OutOfRangeException Thrown when the index does not exist.
+     */
     public function remove($index = null)
     {
         if ($index !== null) {
@@ -85,6 +98,20 @@ class Queue implements \ArrayAccess, \Iterator, \Countable
         }
     }
 
+    /**
+     * Set an index of the queue with an array interface.
+     *
+     * For example $queue[] = 'string' or $queue[1] = 'string'.
+     * NOTE: Currently if adding a new item, even when passing an offset, the value will be
+     * appended and not interested at that index. If the index exists, then the old value will
+     * be removed and then the new value appended.
+     *
+     * @param int|null $offset Index of the queue to set. If null appends value to the end.
+     * @param string   $value  String or object that has the method __toString.
+     * @return void
+     *
+     * @throws InvalidArgumentException Thrown when the $value isn't a string.
+     */
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
@@ -99,14 +126,32 @@ class Queue implements \ArrayAccess, \Iterator, \Countable
         }
     }
 
+    /**
+     * Using the array interface, check whether an index in the queue exists.
+     *
+     * For example isset($queue[0]);
+     *
+     * @param int $offset Index that you want to check the existence for.
+     * @return bool Whether the index exists or not.
+     */
     public function offsetExists($offset)
     {
         return isset($this->container[$offset]);
     }
 
+    /**
+     * Using the array interface, remove an item from the queue.
+     *
+     * For example unset($queue[1]);
+     *
+     * @param int $offset Index that you want to remove from the queue.
+     * @return bool TRUE when the item is removed.
+     *
+     * @throws OutOfRangeException Thrown when the index does not exist.
+     */
     public function offsetUnset($offset)
     {
-        $this->remove($offset);
+        return $this->remove($offset);
     }
 
     public function offsetGet($offset)
