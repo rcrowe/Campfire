@@ -154,36 +154,78 @@ class Queue implements \ArrayAccess, \Iterator, \Countable
         return $this->remove($offset);
     }
 
+    /**
+     * Using the array interface, get an item from the queue.
+     *
+     * For example echo $queue[0];
+     *
+     * @param int $offset Index that you want to get the value for.
+     * @return string|null If the index can not be found NULL is returned, else the value in the queue.
+     *
+     * @throws OutOfRangeException Thrown when the index does not exist.
+     */
     public function offsetGet($offset)
     {
         return ($this->offsetExists($offset)) ? $this->container[$offset] : null;
     }
 
+    /**
+     * Rewind back to the first element in the queue.
+     *
+     * @return void
+     */
     public function rewind()
     {
         reset($this->container);
     }
 
+    /**
+     * Returns the current element.
+     *
+     * @return string
+     */
     public function current()
     {
         return current($this->container);
     }
 
+    /**
+     * Returns the key of the current element.
+     *
+     * @return int
+     */
     public function key()
     {
         return key($this->container);
     }
 
+    /**
+     * Moves the current position to the next queue.
+     *
+     * @return void
+     */
     public function next()
     {
-        return next($this->container);
+        next($this->container);
     }
 
+    /**
+     * This method is called after Iterator::rewind() and Iterator::next() to check if the current position is valid.
+     *
+     * @return bool
+     */
     public function valid()
     {
         return $this->current() !== false;
     }
 
+    /**
+     * Return the number of items currently in the queue.
+     *
+     * For example: count($queue)
+     *
+     * @return int
+     */
     public function count()
     {
         return count($this->container);
