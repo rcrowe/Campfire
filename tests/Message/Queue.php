@@ -342,6 +342,10 @@ class Queue extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->queue->offsetExists(1));
         $this->assertFalse($this->queue->offsetExists(2));
 
+        $this->assertTrue(isset($this->queue[0]));
+        $this->assertTrue(isset($this->queue[1]));
+        $this->assertFalse(isset($this->queue[2]));
+
         try
         {
             unset($this->queue[2]);
