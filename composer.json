@@ -19,7 +19,8 @@
         "apigen/apigen": "dev-master",
         "mockery/mockery": "*",
         "phing/phing": "*",
-        "phpmd/phpmd": "1.4.0"
+        "phpmd/phpmd": "1.4.0",
+        "phpunit/phpunit": "*"
     },
     "autoload": {
         "psr-0": { "rcrowe\\Campfire": "src/" }

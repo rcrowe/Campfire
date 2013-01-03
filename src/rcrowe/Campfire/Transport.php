@@ -1,16 +1,37 @@
 <?php
 
+/**
+ * PHP library for 37Signals Campfire. Designed for incidental notifications from an application.
+ *
+ * @author Rob Crowe <rob@vocabexpress.com>
+ * @copyright Copyright (c) 2012, Alpha Initiatives Ltd.
+ * @license MIT
+ */
+
 namespace rcrowe\Campfire;
 
 use Guzzle\Http\Client as Http;
 use Guzzle\Plugin\CurlAuth\CurlAuthPlugin as HttpAuth;
 use Guzzle\Http\Exception\BadResponseException as HttpException;
 
+/**
+ * Deals with actually sending the message to the Campfire API endpoint.
+ */
 class Transport
 {
+    /**
+     * @var rcrowe\Campfire\Config
+     */
     protected $config;
+
+    /**
+     * @var Guzzle\Http\Client
+     */
     protected $http;
 
+    /**
+     * @var array Headers to send with the POST request to Campfire API.
+     */
     protected $headers = array(
         'Accept'       => 'application/json',
         'Content-type' => 'application/json',

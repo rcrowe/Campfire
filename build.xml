@@ -115,7 +115,7 @@
     </target>
 
     <target name="phpunit" description="Run unit tests with PHPUnit">
-        <exec executable="phpunit" passthru="true" checkreturn="true">
+        <exec executable="./vendor/bin/phpunit" passthru="true" checkreturn="true">
             <arg value="--configuration" />
             <arg value="tests/phpunit.xml.dist" />
 
