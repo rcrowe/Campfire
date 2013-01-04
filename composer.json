@@ -3,7 +3,7 @@
     "description": "Send messages to 37Signals Campfire",
     "homepage": "https://github.com/rcrowe/campfire",
     "license": "MIT",
-    "keywords": ["campfire", "chat", "message", "37signals"],
+    "keywords": ["campfire", "chat", "message", "37signals", "phing"],
     "authors": [
         {
             "name": "Rob Crowe",
