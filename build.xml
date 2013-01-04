@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="rcrowe\Campfire" default="build">
 
+    <taskdef name="campfire" classname="rcrowe\Campfire\PhingTask" />
+    <!--
+    <property name="campfire.subdomain" value="" />
+    <property name="campfire.room" value="" />
+    <property name="campfire.key" value="" />
+    -->
+
+    <target name="campfire-example">
+        <campfire msg="Boom Phing task is now sending to Campfire" />
+    </target>
+
     <target name="build" depends="prepare,composer,lint,phploc,pdepend,phpmd-ci,phpcs-ci,phpunit,apigen,phpcb"/>
 
     <target name="clean" description="Cleanup build artifacts">
