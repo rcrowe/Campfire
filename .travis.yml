@@ -9,3 +9,11 @@ before_script:
     - php ./composer.phar install --dev
 
 script: phpunit --configuration ./tests/phpunit.xml.dist
+
+notifications:
+    email: false
+    campfire:
+        on_success: always
+        on_failure: always
+        rooms:
+            - secure: "oqws13LwEAw9t152hBjnJxsa0fkwS8lhw91oOsgSn3yOokqS+SN4Kfg5Lzjy\nguBUPAkMER3O3eO3izHmaggmY5+2j9rjUtUBiVDZhLma1NFi0/N75j2RGKHI\nZfQ+6Z5qX1Z461yWCX6GPjWi+/kiJRS/nSTXR9B6Avi+fZ87v1Y="
