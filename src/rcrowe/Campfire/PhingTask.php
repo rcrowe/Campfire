@@ -12,6 +12,7 @@ namespace rcrowe\Campfire;
 
 use Task;
 use BuildException;
+use Project;
 use rcrowe\Campfire as Campfire;
 
 /**
@@ -38,6 +39,11 @@ class PhingTask extends Task
      * @var string Message to send to the Campfire room.
      */
     protected $msg;
+
+    /**
+     * @var bool On failure should we abort. If false Phing continues.
+     */
+    protected $haltOnFailure = false;
 
     /**
      * Set the Campfire subdomain.
@@ -150,6 +156,17 @@ class PhingTask extends Task
     }
 
     /**
+     * Set whether to exit on error.
+     *
+     * @param bool $halt Exit on error, default FALSE.
+     * @return void
+     */
+    public function setHaltOnFailure($halt)
+    {
+        $this->haltOnFailure = $halt;
+    }
+
+    /**
      * Kicks everything off
      *
      * @return void
@@ -162,6 +179,21 @@ class PhingTask extends Task
             'key'       => $this->getKey(),
         ));
 
-        $campfire->send($this->getMsg());
+        try {
+            $campfire->send($this->getMsg());
+        } catch (Exception $ex) {
+
+            $msg = 'Failed to send message to Campfire: '.$ex->getMessage();
+
+            // Do we want this error to halt the rest of the build file
+            if ($this->haltOnFailure) {
+                throw new BuildException($msg);
+            } else {
+                $this->log($msg, Project::MSG_ERR);
+                return;
+            }
+        }
+
+        $this->log('Successfully sent message to Campfire', Project::MSG_INFO);
     }
 }
