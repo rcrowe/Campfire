@@ -13,6 +13,7 @@ namespace rcrowe\Campfire;
 use Task;
 use BuildException;
 use Project;
+use Exception;
 use rcrowe\Campfire as Campfire;
 
 /**
